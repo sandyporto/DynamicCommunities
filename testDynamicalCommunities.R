@@ -17,3 +17,4 @@ test_that("Verificando o grafo retornado pela função criarGrafoInicial",{
   expect_that(maiorComunidade(grafoInicial), is_less_than(maxsize+1))
   
 })
+

@@ -32,7 +32,46 @@ criarGrafoInicial <- function(){
   return(G)
 }
 
-born <- function(g, nmin = minsize, nmax = maxsize, mi = mixing)
+born <- function(g, nmin = minsize, nmax = maxsize, mi = mixing){
+  taminicial = vcount(g)
+  tamcomu = sample(nmin:nmax,1)
+  idcomu = max(V(g)$p)+1
+  
+  for (i in 1:tamcomu){
+    g = add.vertices(g,1)
+    V(g)[vcount(g)]$p = idcomu
+    if (i==1){
+      g = add.edges(g,c(vcount(g),sample(1:(vcount(g)-1),1)))
+    }else{
+      grau = sample(2:(i+1),1)
+      
+      for (j in 1:grau){
+        conexao = sample(c("in","out"),1,replace=F,c(1-mi,mi))
+        
+        if (conexao=="out"){
+          espaco = as.vector(V(g)[V(g)$p!=idcomu])
+          v1 = vcount(g)
+          v2 = sample(espaco,1)
+          
+          g = add.edges(g,c(v1,v2))
+          g = simplify(g)
+          
+        }
+        if (conexao == "in"){
+          espaco = as.vector(V(g)[V(g)$p==idcomu])
+          v1 = vcount(g)
+          v2 = sample(espaco,1)
+          
+          g = add.edges(g, c(v1,v2))
+          g = simplify(g)
+          
+        }
+      }
+    }
+  }
+  
+  
+}
 
 
 ##################################################
