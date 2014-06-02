@@ -1,4 +1,5 @@
 library(igraph)
+library('testthat')
 
 setwd("C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities/")
 
@@ -25,4 +26,6 @@ criarGrafoInicial <- function(){
 }
 
 
-grafoInicial = criarGrafoInicial()
+
+test_file("testDynamicalCommunities.R", reporter = "minimal")
+
