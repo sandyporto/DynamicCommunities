@@ -7,12 +7,12 @@ pasta = "C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities
 
 
 nvertices = 300
-avgdegree = 20
-maxdegree = 40
-mixing = 0.05
+avgdegree = 30
+maxdegree = 50
+mixing = 0.2
 toleranciamixing = 0.03
-minsize = 40
-maxsize = 80
+minsize = 20
+maxsize = 100
 
 
 criarGrafoInicial <- function(){
