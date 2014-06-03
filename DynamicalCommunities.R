@@ -10,6 +10,7 @@ nvertices = 300
 avgdegree = 20
 maxdegree = 40
 mixing = 0.05
+toleranciamixing = 0.03
 minsize = 40
 maxsize = 80
 
@@ -28,6 +29,10 @@ criarGrafoInicial <- function(){
   G = simplify(G)
   V(G)$p = 0
   V(G)$p = comus[,2]
+  
+  if (maiorComunidade(G)>maxsize){
+    G = criarGrafoInicial()
+  }
   
   return(G)
 }
@@ -56,6 +61,10 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
           v1 = vcount(g)
           v2 = sample(espaco,1)
           
+          while(degree(g,v2) == maxdegree){
+            v2 = sample(espaco,1)
+          }
+          
           g = add.edges(g,c(v1,v2))
           g = simplify(g)
           
@@ -65,6 +74,10 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
           v1 = vcount(g)
           v2 = sample(espaco,1)
           
+          while(degree(g,v2) == maxdegree){
+            v2 = sample(espaco,1)
+          }
+          
           g = add.edges(g, c(v1,v2))
           g = simplify(g)
           
@@ -72,6 +85,9 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
       }
     }
   }
+  
+  
+  
   
   return(g)
 }
@@ -82,15 +98,15 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
 ##################################################
   
 calculaMixing <- function(g){
-  nc = length(unique(V(g)$p))
   temp = 0
-  for (i in 1:nc){
-    vout = length(E(g)[V(g)[V(g)$p==i] %--% V(g)[V(g)$p!=i]])
-    vtotal = length(E(g)[V(g)[V(g)$p==i] %--% V(g)])
+  for (i in 1:vcount(g)){
+    vout = length(E(g)[i %--% V(g)[V(g)$p!=V(g)[i]$p]])
+    vtotal = degree(g,i)
     temp = temp +vout/vtotal
   }
   
-  return(temp/nc)
+  
+  return(temp/vcount(g))
 }
 
 menorComunidade <- function(g){
