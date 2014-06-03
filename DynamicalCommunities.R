@@ -32,7 +32,7 @@ criarGrafoInicial <- function(){
   return(G)
 }
 
-born <- function(g, nmin = minsize, nmax = maxsize, mi = mixing){
+born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixing){
   taminicial = vcount(g)
   tamcomu = sample(nmin:nmax,1)
   idcomu = max(V(g)$p)+1
@@ -44,6 +44,9 @@ born <- function(g, nmin = minsize, nmax = maxsize, mi = mixing){
       g = add.edges(g,c(vcount(g),sample(1:(vcount(g)-1),1)))
     }else{
       grau = sample(2:(i+1),1)
+      if (grau > dmax){
+        grau = dmax
+      }
       
       for (j in 1:grau){
         conexao = sample(c("in","out"),1,replace=F,c(1-mi,mi))
@@ -70,7 +73,7 @@ born <- function(g, nmin = minsize, nmax = maxsize, mi = mixing){
     }
   }
   
-  
+  return(g)
 }
 
 
@@ -116,6 +119,9 @@ maiorComunidade <- function(g){
   return(tamanho)
 }  
   
+#################################################
+#Testando Funções
+#################################################
 
-test_file("testDynamicalCommunities.R")
+test_file("testDynamicalCommunities.R", reporter = "summary")
 
