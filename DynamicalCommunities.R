@@ -7,12 +7,12 @@ pasta = "C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities
 
 
 nvertices = 300
-avgdegree = 30
-maxdegree = 50
-mixing = 0.2
+avgdegree = 20
+maxdegree = 40
+mixing = 0.05
 toleranciamixing = 0.03
 minsize = 20
-maxsize = 100
+maxsize = 60
 
 
 criarGrafoInicial <- function(){
@@ -49,8 +49,8 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
       g = add.edges(g,c(vcount(g),sample(1:(vcount(g)-1),1)))
     }else{
       grau = sample(2:(i+1),1)
-      if (grau > dmax){
-        grau = dmax
+      if (grau > maxdegree){
+        grau = maxdegree
       }
       
       for (j in 1:grau){
@@ -86,7 +86,32 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
     }
   }
   
+  dens = densidade(g)
+  narestasout = length(E(g)[V(g)[V(g)$p==idcomu] %--% V(g)[V(g)$p!=idcomu]])
+  comumaxdegree = (((maxdegree*tamcomu)/2) - narestasout)/(tamcomu*(tamcomu-1)/2)
   
+  d = min(dens,comumaxdegree)
+  aux = T
+  
+  while(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])) < (d) && aux){
+    espaco = as.vector(V(g)[V(g)$p==idcomu])
+    espaco = espaco[degree(g,espaco) < maxdegree]
+    
+    if (length(espaco)>=2){
+      v1 = sample(espaco,1)
+      v2 = sample(espaco,1)
+      
+      g = add.edges(g,c(v1,v2))
+      g = simplify(g)
+    }else{
+      aux = F
+    }
+    
+  }
+  
+  if (calculaMixing(g) < (mi-toleranciamixing)){
+    g = corrigeMixing(g,mi)
+  }
   
   
   return(g)
@@ -96,6 +121,49 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
 ##################################################
 #Funções Auxiliares
 ##################################################
+
+corrigeMixing <- function(g,mi){
+  
+  aux = T
+  while(aux){
+    v1 = sample(1:vcount(g),1)
+    while (degree(g,v1) == maxdegree){
+      v1 = sample(1:vcount(g),1)
+    }
+    vout = length(E(g)[v1 %--% V(g)[V(g)$p!=V(g)[v1]$p]])
+    vtotal = degree(g,v1)
+    if (vout/vtotal < (mi-toleranciamixing)){
+      v2 = sample(1:vcount(g),1)
+      while (degree(g,v2) == maxdegree){
+        v2 = sample(1:vcount(g),1)
+      }
+      vout = length(E(g)[v2 %--% V(g)[V(g)$p!=V(g)[v2]$p]])
+      vtotal = degree(g,v2)
+      if (vout/vtotal < (mi-toleranciamixing)){
+        g = add.edges(g, c(v1,v2))
+        g = simplify(g)
+      }     
+    }
+    
+    if (calculaMixing(g) > (mi-toleranciamixing)){
+      aux = F
+    }
+  }
+  return(g)
+}
+
+densidade <- function(g){
+  dens = 0
+  nc = unique(V(g)$p)
+  for (i in 1:length(nc)){
+    #print(graph.density(induced.subgraph(g,V(g)[V(g)$p==nc[i]])))
+    dens = dens + graph.density(induced.subgraph(g,V(g)[V(g)$p==nc[i]]))
+    
+  }
+  dens = dens/length(nc)
+  
+  return(dens)
+}
   
 calculaMixing <- function(g){
   temp = 0
@@ -110,10 +178,10 @@ calculaMixing <- function(g){
 }
 
 menorComunidade <- function(g){
-  nc = length(unique(V(g)$p))
+  nc = unique(V(g)$p)
   temp = 0
   tamanho = vcount(g)
-  for (i in 1:nc){
+  for (i in nc){
     temp = length(V(g)$p[V(g)$p==i])
     if (temp<tamanho){
       tamanho = temp
@@ -123,10 +191,10 @@ menorComunidade <- function(g){
 }
 
 maiorComunidade <- function(g){
-  nc = length(unique(V(g)$p))
+  nc = unique(V(g)$p)
   temp = 0
   tamanho = 0
-  for (i in 1:nc){
+  for (i in nc){
     temp = length(V(g)$p[V(g)$p==i])
     if (temp>tamanho){
       tamanho = temp

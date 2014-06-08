@@ -12,7 +12,7 @@ test_that("Função criarGrafoInicial",{
   expect_that(mean(degree(grafoInicial)), equals(avgdegree, tolerance=1))
   expect_that(max(degree(grafoInicial)),is_less_than(maxdegree+1))
   mixingReal = calculaMixing(grafoInicial)
-  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing))
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
   expect_that(menorComunidade(grafoInicial), is_more_than(minsize-1))
   expect_that(maiorComunidade(grafoInicial), is_less_than(maxsize+1))
   
@@ -32,7 +32,7 @@ test_that("Função born",{
   expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
   expect_that(max(degree(g)),is_less_than(maxdegree+1))
   mixingReal = calculaMixing(g)
-  expect_that(mixingReal, equals(mixing, tolerance = 0.05))
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
   expect_that(menorComunidade(g), is_more_than(minsize-1))
   expect_that(maiorComunidade(g), is_less_than(maxsize+1))
   
@@ -49,7 +49,7 @@ test_that("Usando a função born 3 vezes",{
   expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
   expect_that(max(degree(g)),is_less_than(maxdegree+1))
   mixingReal = calculaMixing(g)
-  expect_that(mixingReal, equals(mixing, tolerance = 0.05))
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
   expect_that(menorComunidade(g), is_more_than(minsize-1))
   expect_that(maiorComunidade(g), is_less_than(maxsize+1))
 })
@@ -65,14 +65,22 @@ test_that("Usando a função born 5 vezes",{
   expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
   expect_that(max(degree(g)),is_less_than(maxdegree+1))
   mixingReal = calculaMixing(g)
-  expect_that(mixingReal, equals(mixing, tolerance = 0.05))
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
   expect_that(menorComunidade(g), is_more_than(minsize-1))
   expect_that(maiorComunidade(g), is_less_than(maxsize+1))
 })
 
 
 
-
+# aux = T
+# while (aux){
+#   g = born(g)
+#   m = calculaMixing(g)
+#   print(m)
+#   if ((m>(mixing+toleranciamixing)) || (m < (mixing-toleranciamixing)) ){
+#     aux=F
+#   }
+# }
 
 
 
