@@ -202,6 +202,19 @@ maiorComunidade <- function(g){
   }
   return(tamanho)
 }  
+
+ilustrarGrafo <- function(g){
+  nc = unique(V(g)$p)
+  cores = rainbow(max(nc))
+  for (i in nc){
+    V(g)[V(g)$p == i]$color = cores[i]
+  }
+  
+  arquivo = paste("g",toString(length(nc)),".png",sep="")
+  png(filename=arquivo)
+  plot.igraph(g)
+  dev.off()
+}
   
 #################################################
 #Testando Funções

@@ -1,6 +1,7 @@
 library(igraph)
 
 grafoInicial = criarGrafoInicial()
+ilustrarGrafo(grafoInicial)
 
 
 test_that("Função criarGrafoInicial",{
@@ -71,17 +72,7 @@ test_that("Usando a função born 5 vezes",{
 })
 
 
-
-# aux = T
-# while (aux){
-#   g = born(g)
-#   m = calculaMixing(g)
-#   print(m)
-#   if ((m>(mixing+toleranciamixing)) || (m < (mixing-toleranciamixing)) ){
-#     aux=F
-#   }
-# }
-
+ilustrarGrafo(g)
 
 
 
