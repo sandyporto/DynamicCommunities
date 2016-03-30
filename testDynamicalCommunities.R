@@ -1,7 +1,7 @@
 library(igraph)
 
 grafoInicial = criarGrafoInicial()
-ilustrarGrafo(grafoInicial)
+#ilustrarGrafo(grafoInicial)
 
 
 test_that("Função criarGrafoInicial",{
@@ -72,7 +72,7 @@ test_that("Usando a função born 5 vezes",{
 })
 
 
-ilustrarGrafo(g)
+#ilustrarGrafo(g)
 
 
 

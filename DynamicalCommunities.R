@@ -48,10 +48,8 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
     if (i==1){
       g = add.edges(g,c(vcount(g),sample(1:(vcount(g)-1),1)))
     }else{
-      grau = sample(2:(i+1),1)
-      if (grau > maxdegree){
-        grau = maxdegree
-      }
+      auxgrau = min((i+1),maxdegree)
+      grau = sample(2:auxgrau,1)
       
       for (j in 1:grau){
         conexao = sample(c("in","out"),1,replace=F,c(1-mi,mi))
@@ -203,7 +201,7 @@ maiorComunidade <- function(g){
   return(tamanho)
 }  
 
-ilustrarGrafo <- function(g){
+ilustrarGrafo <- function(g, nome = "", pasta = ""){
   nc = unique(V(g)$p)
   cores = rainbow(max(nc))
   for (i in nc){
@@ -211,6 +209,18 @@ ilustrarGrafo <- function(g){
   }
   
   arquivo = paste("g",toString(length(nc)),".png",sep="")
+  
+  if (nome != ""){
+    if (pasta != ""){
+      arquivo = paste(pasta,nome,".png",sep="")
+    }else{
+      arquivo = paste(nome,".png",sep="")
+    }
+  }else{
+    if (pasta!=""){
+      arquivo = paste(pasta,arquivo,sep="")
+    }
+  }
   png(filename=arquivo)
   plot.igraph(g)
   dev.off()
@@ -220,5 +230,5 @@ ilustrarGrafo <- function(g){
 #Testando Funções
 #################################################
 
-test_file("testDynamicalCommunities.R", reporter = "summary")
+resultadosTestes = test_file("testDynamicalCommunities.R", reporter = "summary")
 

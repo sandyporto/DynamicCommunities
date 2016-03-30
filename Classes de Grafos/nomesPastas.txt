@@ -1,0 +1,4 @@
+nv300maxs150mins15maxd60avgd30mix5
+nv300maxs150mins15maxd60avgd30mix20
+nv600maxs300mins30maxd120avgd60mix5
+nv600maxs300mins30maxd120avgd60mix20
