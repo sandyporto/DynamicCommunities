@@ -73,6 +73,7 @@ test_that("Função born",{
 
 idcomu = sample(V(g)$p,1)
 tamcomu = length(V(g)$p[V(g)$p==idcomu])
+nvertices = vcount(g)
 g = extinction(g, comu = idcomu)
 
 test_that("Função extinction",{

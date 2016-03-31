@@ -116,6 +116,23 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
 }
 
 extinction <- function(g, comu = 0){
+  if (comu==0){
+    idcomu = sample(V(g)$p,1)
+  }else{
+    idcomu=comu
+  }
+  
+  aux = c(1:vcount(g))
+  aux = aux[V(g)$p==idcomu]
+  
+  while(length(aux)>1){
+    g = delete.vertices(g,sample(aux,1))
+    aux = c(1:vcount(g))
+    aux = aux[V(g)$p==idcomu]
+  }
+  
+  g = delete.vertices(g,aux)
+  
   return(g)
 }
 ##################################################
