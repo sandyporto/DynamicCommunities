@@ -115,7 +115,9 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
   return(g)
 }
 
-
+extinction <- function(g, comu = 0){
+  return(g)
+}
 ##################################################
 #Funções Auxiliares
 ##################################################

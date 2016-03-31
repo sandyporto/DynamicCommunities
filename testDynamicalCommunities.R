@@ -40,35 +40,53 @@ test_that("Função born",{
   
 })
 
-g = born(g)
-g = born(g)
+# g = born(g)
+# g = born(g)
+# 
+# test_that("Usando a função born 3 vezes",{
+#   idcomu = max(V(g)$p)
+#   tamcomu = length(V(g)$p[V(g)$p==idcomu])
+#   
+#   expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
+#   expect_that(max(degree(g)),is_less_than(maxdegree+1))
+#   mixingReal = calculaMixing(g)
+#   expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
+#   expect_that(menorComunidade(g), is_more_than(minsize-1))
+#   expect_that(maiorComunidade(g), is_less_than(maxsize+1))
+# })
+# 
+# g = born(g)
+# g = born(g)
 
-test_that("Usando a função born 3 vezes",{
-  idcomu = max(V(g)$p)
-  tamcomu = length(V(g)$p[V(g)$p==idcomu])
+
+# test_that("Usando a função born 5 vezes",{
+#   idcomu = max(V(g)$p)
+#   tamcomu = length(V(g)$p[V(g)$p==idcomu])
+#   
+#   expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
+#   expect_that(max(degree(g)),is_less_than(maxdegree+1))
+#   mixingReal = calculaMixing(g)
+#   expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
+#   expect_that(menorComunidade(g), is_more_than(minsize-1))
+#   expect_that(maiorComunidade(g), is_less_than(maxsize+1))
+# })
+
+idcomu = sample(V(g)$p,1)
+tamcomu = length(V(g)$p[V(g)$p==idcomu])
+g = extinction(g, comu = idcomu)
+
+test_that("Função extinction",{
   
+  expect_that(vcount(g),equals(nvertices-tamcomu))
+  nv = length(V(g)$p[V(g)$p==idcomu])
+  expect_that(nv,equals(0))
   expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
   expect_that(max(degree(g)),is_less_than(maxdegree+1))
   mixingReal = calculaMixing(g)
   expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
   expect_that(menorComunidade(g), is_more_than(minsize-1))
   expect_that(maiorComunidade(g), is_less_than(maxsize+1))
-})
-
-g = born(g)
-g = born(g)
-
-
-test_that("Usando a função born 5 vezes",{
-  idcomu = max(V(g)$p)
-  tamcomu = length(V(g)$p[V(g)$p==idcomu])
   
-  expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
-  expect_that(max(degree(g)),is_less_than(maxdegree+1))
-  mixingReal = calculaMixing(g)
-  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
-  expect_that(menorComunidade(g), is_more_than(minsize-1))
-  expect_that(maiorComunidade(g), is_less_than(maxsize+1))
 })
 
 
