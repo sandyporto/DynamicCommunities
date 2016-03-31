@@ -1,5 +1,21 @@
 library(igraph)
 
+
+test_that("Grafo vazio para função born",{
+  g = make_empty_graph(0,F)
+  V(g)$p = 0
+  g = tryCatch(expr = born(g), finally = g)
+  nc = length(unique(V(g)$p[V(g)$p!=0]))
+  expect_that(nc, equals(1))
+  expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
+  expect_that(max(degree(g)),is_less_than(maxdegree+1))
+  mixingReal = calculaMixing(g)
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
+  expect_that(menorComunidade(g), is_more_than(minsize-1))
+  expect_that(maiorComunidade(g), is_less_than(maxsize+1))
+})
+
+
 grafoInicial = criarGrafoInicial()
 #ilustrarGrafo(grafoInicial)
 
@@ -89,6 +105,8 @@ test_that("Função extinction",{
   expect_that(maiorComunidade(g), is_less_than(maxsize+1))
   
 })
+
+
 
 
 #ilustrarGrafo(g)

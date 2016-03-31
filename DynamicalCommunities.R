@@ -40,19 +40,29 @@ criarGrafoInicial <- function(){
 born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixing){
   taminicial = vcount(g)
   tamcomu = sample(nmin:nmax,1)
-  idcomu = max(V(g)$p)+1
+  if (taminicial != 0){
+    idcomu = max(V(g)$p)+1
+  }else{
+    idcomu = 1
+  }
   
   for (i in 1:tamcomu){
     g = add.vertices(g,1)
     V(g)[vcount(g)]$p = idcomu
     if (i==1){
-      g = add.edges(g,c(vcount(g),sample(1:(vcount(g)-1),1)))
+      if (taminicial != 0){
+        g = add.edges(g,c(vcount(g),sample(1:(vcount(g)-1),1)))
+      }
     }else{
       auxgrau = min((i+1),maxdegree)
       grau = sample(2:auxgrau,1)
       
       for (j in 1:grau){
         conexao = sample(c("in","out"),1,replace=F,c(1-mi,mi))
+        
+        if(taminicial == 0){
+          conexao = "in"
+        }
         
         if (conexao=="out"){
           espaco = as.vector(V(g)[V(g)$p!=idcomu])
@@ -110,7 +120,6 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
   if (calculaMixing(g) < (mi-toleranciamixing)){
     g = corrigeMixing(g,mi)
   }
-  
   
   return(g)
 }
@@ -190,6 +199,9 @@ calculaMixing <- function(g){
     temp = temp +vout/vtotal
   }
   
+  if(temp == 0){
+    temp = mixing*vcount(g)
+  }
   
   return(temp/vcount(g))
 }
