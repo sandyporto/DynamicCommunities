@@ -1,9 +1,22 @@
 library(igraph)
 library('testthat')
+library(stringr)
 
 setwd("C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities/")
 
 pasta = "C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities/"
+
+arquivoErro = paste(pasta,"Erros.dat",sep="")
+testarErro = F
+if(!testarErro){
+  seed = sample(1:1000,1)
+  set.seed(seed)
+}else{
+  seed = read.table(arquivoErro,sep="\t")
+  seed = seed[nrow(seed),1]
+  set.seed(seed)
+}
+
 
 
 nvertices = 300
@@ -262,4 +275,18 @@ ilustrarGrafo <- function(g, nome = "", pasta = ""){
 #################################################
 
 resultadosTestes = test_file("testDynamicalCommunities.R", reporter = "summary")
+
+
+ntestes = length(resultadosTestes)
+for(i in 1:ntestes){
+  nresults = length(resultadosTestes[[i]]$results)
+  for (j in 1:nresults){
+    if (!resultadosTestes[[i]]$results[[j]]$passed){
+      st = resultadosTestes[[1]]$results[[1]]$failure_msg
+      st = str_replace(st,"\n",", ")
+      aux = c(seed,st)
+      write(aux,arquivoErro,ncolumns=2,append=T,sep="\t")
+    }
+  }
+}
 
