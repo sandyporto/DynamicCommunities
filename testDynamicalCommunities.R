@@ -23,6 +23,43 @@ test_that("Grafo vazio para função extinction",{
 })
 
 
+nv = sample(minsize:maxsize,1)
+g = make_full_graph(nv)
+V(g)$p=1
+while(mean(degree(g))>avgdegree+1){
+  v1 = sample(1:nv,1)
+  while(degree(g,v1)<2){
+    v1 = sample(1:nv,1)
+  }
+  v2 = sample(as.vector(neighbors(g,v1)),1)
+  while(degree(g,v2)<2){
+    v2 = sample(as.vector(neighbors(g,v1)),1)
+  }
+  aresta = get.edge.ids(g,c(v1,v2))
+  g = delete.edges(g,aresta)
+}
+
+
+
+test_that("Grafo com 1 comunidade para função born",{
+  g = born(g)
+  nc = length(unique(V(g)$p[V(g)$p!=0]))
+  expect_that(nc, equals(2))
+  expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
+  expect_that(max(degree(g)),is_less_than(maxdegree+1))
+  mixingReal = calculaMixing(g)
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
+  expect_that(menorComunidade(g), is_more_than(minsize-1))
+  expect_that(maiorComunidade(g), is_less_than(maxsize+1))
+})
+
+test_that("Grafo com 1 comunidade para função extinction",{
+  g = extinction(g)
+  nv = vcount(g)
+  expect_that(nv, equals(0))
+})
+
+
 grafoInicial = criarGrafoInicial()
 #ilustrarGrafo(grafoInicial)
 

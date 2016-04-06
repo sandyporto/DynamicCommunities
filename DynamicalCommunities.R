@@ -113,7 +113,7 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
   comumaxavgdegree = (((maxdegree*tamcomu)/2) - narestasout)/(tamcomu*(tamcomu-1)/2)
   
   d = min(mean(dens),comumaxavgdegree)
-  d = max(d,avgdegree/tamcomu)
+  d = max(d,(avgdegree-1)/tamcomu)
   aux = T
 
   while(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])) < (d) && aux){

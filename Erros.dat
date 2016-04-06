@@ -14,3 +14,5 @@
 957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
 957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
 957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+854	missing value where TRUE/FALSE needed, 1: 
+448	missing value where TRUE/FALSE needed, 1: 
