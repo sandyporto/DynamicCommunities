@@ -1,9 +1,20 @@
-300	# number of nodes
-20	# average degree
-40	# maximum degree
-2	# exponent for the degree distribution
-1	# exponent for the community size distribution
-0.05	# mixing parameter
-20	# minimum for the community sizes (optional; just comment this line, if you wish)
-60	# maximum for the community sizes (optional; just comment this line, if you wish)
-
+##############
+##############
+##############
+##############
+##############
+##############
+300
+20
+40
+2
+1
+0.05
+20
+60
+#############
+#############
+#############
+#############
+#############
+############

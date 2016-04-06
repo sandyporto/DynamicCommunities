@@ -7,7 +7,7 @@ setwd("C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities/"
 pasta = "C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities/"
 
 arquivoErro = paste(pasta,"Erros.dat",sep="")
-testarErro = F
+testarErro = T
 if(!testarErro){
   seed = sample(1:1000,1)
   set.seed(seed)
@@ -18,6 +18,7 @@ if(!testarErro){
 }
 
 
+#arquivoParametros = paste(pasta,"parameters.dat",sep="")
 
 nvertices = 300
 avgdegree = 20
@@ -107,13 +108,14 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
     }
   }
   
-  dens = densidade(g)
+  dens = densidadeComunidade(g)
   narestasout = length(E(g)[V(g)[V(g)$p==idcomu] %--% V(g)[V(g)$p!=idcomu]])
-  comumaxdegree = (((maxdegree*tamcomu)/2) - narestasout)/(tamcomu*(tamcomu-1)/2)
+  comumaxavgdegree = (((maxdegree*tamcomu)/2) - narestasout)/(tamcomu*(tamcomu-1)/2)
   
-  d = min(dens,comumaxdegree)
+  d = min(mean(dens),comumaxavgdegree)
+  d = max(d,avgdegree/tamcomu)
   aux = T
-  
+
   while(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])) < (d) && aux){
     espaco = as.vector(V(g)[V(g)$p==idcomu])
     espaco = espaco[degree(g,espaco) < maxdegree]
@@ -138,6 +140,10 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
 }
 
 extinction <- function(g, comu = 0){
+  if(vcount(g)==0){
+    return(g)
+  }
+  
   if (comu==0){
     idcomu = sample(V(g)$p,1)
   }else{
@@ -157,6 +163,8 @@ extinction <- function(g, comu = 0){
   
   return(g)
 }
+
+
 ##################################################
 #Funções Auxiliares
 ##################################################
@@ -191,16 +199,14 @@ corrigeMixing <- function(g,mi){
   return(g)
 }
 
-densidade <- function(g){
-  dens = 0
+densidadeComunidade <- function(g){
+  dens = c()
   nc = unique(V(g)$p)
   for (i in 1:length(nc)){
     #print(graph.density(induced.subgraph(g,V(g)[V(g)$p==nc[i]])))
-    dens = dens + graph.density(induced.subgraph(g,V(g)[V(g)$p==nc[i]]))
+    dens = c(dens,graph.density(induced.subgraph(g,V(g)[V(g)$p==nc[i]])))
     
   }
-  dens = dens/length(nc)
-  
   return(dens)
 }
   
@@ -213,7 +219,7 @@ calculaMixing <- function(g){
   }
   
   if(temp == 0){
-    temp = mixing*vcount(g)
+    return(mixing)
   }
   
   return(temp/vcount(g))
@@ -282,7 +288,7 @@ for(i in 1:ntestes){
   nresults = length(resultadosTestes[[i]]$results)
   for (j in 1:nresults){
     if (!resultadosTestes[[i]]$results[[j]]$passed){
-      st = resultadosTestes[[1]]$results[[1]]$failure_msg
+      st = resultadosTestes[[i]]$results[[j]]$failure_msg
       st = str_replace(st,"\n",", ")
       aux = c(seed,st)
       write(aux,arquivoErro,ncolumns=2,append=T,sep="\t")

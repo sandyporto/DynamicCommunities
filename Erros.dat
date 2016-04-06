@@ -1,1 +1,16 @@
-
+508	nc not equal to 1, Equal
+351	nc not equal to 1, Equal
+11	nc not equal to 1, Equal
+340	nc not equal to 1, Equal
+340	nc not equal to 1, Equal
+88	nc not equal to 1, Equal
+957	nc not equal to 1, Equal
+957	nc not equal to 1, Equal
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
+957	mean(degree(g)) not equal to avgdegree, 9.55 - 20 == -10.5
