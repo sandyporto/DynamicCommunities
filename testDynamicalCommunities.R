@@ -60,7 +60,7 @@ test_that("Grafo com 1 comunidade para função extinction",{
 })
 
 
-grafoInicial = criarGrafoInicial()
+grafoInicial = criarGrafoInicial(path)
 #ilustrarGrafo(grafoInicial)
 
 

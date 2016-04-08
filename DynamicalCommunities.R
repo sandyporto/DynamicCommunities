@@ -1,42 +1,17 @@
-library(igraph)
-library('testthat')
-library(stringr)
 
-setwd("C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities/")
-
-pasta = "C:/Users/Sandy/Dropbox/2014_Sandy/DynamicCommunities/DynamicCommunities/"
-
-arquivoErro = paste(pasta,"Erros.dat",sep="")
-testarErro = T
-if(!testarErro){
-  seed = sample(1:1000,1)
-  set.seed(seed)
-}else{
-  seed = read.table(arquivoErro,sep="\t")
-  seed = seed[nrow(seed),1]
-  set.seed(seed)
-}
+##################################################
+#Funções Principais
+##################################################
 
 
-#arquivoParametros = paste(pasta,"parameters.dat",sep="")
-
-nvertices = 300
-avgdegree = 20
-maxdegree = 40
-mixing = 0.05
-toleranciamixing = 0.03
-minsize = 20
-maxsize = 60
-
-
-criarGrafoInicial <- function(){
-  arquivo = paste(pasta,"main.exe",sep="")
+criarGrafoInicial <- function(p){
+  arquivo = paste(p,"main.exe",sep="")
   
   system(arquivo)
   
-  arquivo = paste(pasta,"network.dat",sep="")
+  arquivo = paste(p,"network.dat",sep="")
   rede = as.matrix(read.table(arquivo))
-  arquivo = paste(pasta,"community.dat",sep="")
+  arquivo = paste(p,"community.dat",sep="")
   comus = as.matrix(read.table(arquivo))
   
   G = graph.edgelist(rede,directed=F)
@@ -59,7 +34,7 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
   }else{
     idcomu = 1
   }
-  
+ 
   for (i in 1:tamcomu){
     g = add.vertices(g,1)
     V(g)[vcount(g)]$p = idcomu
@@ -107,7 +82,7 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
       }
     }
   }
-  
+
   dens = densidadeComunidade(g)
   narestasout = length(E(g)[V(g)[V(g)$p==idcomu] %--% V(g)[V(g)$p!=idcomu]])
   comumaxavgdegree = (((maxdegree*tamcomu)/2) - narestasout)/(tamcomu*(tamcomu-1)/2)
@@ -131,11 +106,11 @@ born <- function(g, nmin = minsize, nmax = maxsize, dmax = maxdegree, mi = mixin
     }
     
   }
-  
+
   if (calculaMixing(g) < (mi-toleranciamixing)){
     g = corrigeMixing(g,mi)
   }
-  
+
   return(g)
 }
 
@@ -281,7 +256,6 @@ ilustrarGrafo <- function(g, nome = "", pasta = ""){
 #################################################
 
 resultadosTestes = test_file("testDynamicalCommunities.R", reporter = "summary")
-
 
 ntestes = length(resultadosTestes)
 for(i in 1:ntestes){
