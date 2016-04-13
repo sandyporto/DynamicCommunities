@@ -23,10 +23,10 @@ test_that("Grafo vazio para função extinction",{
 })
 
 
-nv = sample(minsize:maxsize,1)
+nv = sample(minsize:(round(maxsize/3)),1)
 g = make_full_graph(nv)
 V(g)$p=1
-while(mean(degree(g))>avgdegree+1){
+while(mean(degree(g))>avgdegree){
   v1 = sample(1:nv,1)
   while(degree(g,v1)<2){
     v1 = sample(1:nv,1)

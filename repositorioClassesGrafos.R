@@ -25,33 +25,28 @@ pathParametros <- function(classe){
   return(path)
 }
 
-verificaErro <-function(testar){
-  arquivoErro = paste(pasta,"Erros.dat",sep="")
-  if(!testar){
-    seed = sample(1:1000,1)
-    set.seed(seed)
-  }else{
-    seed = read.table(arquivoErro,sep="\t")
-    seed = seed[nrow(seed),1]
-    set.seed(seed)
-  }
+msgDebug = T
+testarErro = F
+arquivoErro = paste(pasta,"Erros.dat",sep="")
+if(!testarErro){
+  seed = sample(1:1000,1)
+  set.seed(seed)
+}else{
+  seed = read.table(arquivoErro,sep="\t")
+  seed = seed[nrow(seed),1]
+  set.seed(seed)
 }
 
-
-
-testarErro = F
-
-verificaErro(testarErro)
-classe = sample(nclasses,1)
+classe = sample(c(1,3,2,4),1)
 path = pathParametros(classe)
 
-nvertices = classesGrafos[classe,"nv"]
-avgdegree = classesGrafos[classe,"avgd"]
-maxdegree = classesGrafos[classe,"maxd"]
-mixing = classesGrafos[classe,"mix"]/100
+nvertices = as.numeric(classesGrafos[classe,"nv"])
+avgdegree = as.numeric(classesGrafos[classe,"avgd"])
+maxdegree = as.numeric(classesGrafos[classe,"maxd"])
+mixing = as.numeric(classesGrafos[classe,"mix"]/100)
 toleranciamixing = 0.03
-minsize = classesGrafos[classe,"mins"]
-maxsize = classesGrafos[classe,"maxs"]
+minsize = as.numeric(classesGrafos[classe,"mins"])
+maxsize = as.numeric(classesGrafos[classe,"maxs"])
 
 cat("Classe:",classe,"\n")
 cat("Path:",path,"\n")
