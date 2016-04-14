@@ -25,8 +25,10 @@ pathParametros <- function(classe){
   return(path)
 }
 
+
 msgDebug = T
 testarErro = F
+testeCompleto = F
 arquivoErro = paste(pasta,"Erros.dat",sep="")
 if(!testarErro){
   seed = sample(1:1000,1)

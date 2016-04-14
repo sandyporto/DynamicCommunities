@@ -41,3 +41,15 @@
 348	mean(degree(g)) not equal to avgdegree, 23.7 - 30 == -6.31
 348	mixingReal not equal to mixing, 0.0329 - 0.2 == -0.167
 348	mixingReal not equal to mixing, 0.158 - 0.2 == -0.0416
+444	invalid first argument, 1: withCallingHandlers(eval(code, new_test_environment), error = capture_calls, message = function(c) invokeRestart("muffleMessage"))
+2: eval(code, new_test_environment)
+3: eval(expr, envir, enclos)
+4: growth(g) at testDynamicalCommunities.R:7
+5: sample(V(g)$p, 1) at DynamicalCommunities.R:180
+6: sample.int(length(x), size, replace, prob)
+996	invalid first argument, 1: withCallingHandlers(eval(code, new_test_environment), error = capture_calls, message = function(c) invokeRestart("muffleMessage"))
+2: eval(code, new_test_environment)
+3: eval(expr, envir, enclos)
+4: growth(g) at testDynamicalCommunities.R:7
+5: sample(V(g)$p, 1) at DynamicalCommunities.R:184
+6: sample.int(length(x), size, replace, prob)
