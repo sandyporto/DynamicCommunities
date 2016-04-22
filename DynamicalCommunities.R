@@ -35,14 +35,14 @@ born <- function(g, nmin = minsize, nmax = maxsize, mi=mixing){
     idcomu = 1
   }
   if(msgDebug){
-    cat("\nTamanho da comunidade:",tamcomu)
+    cat("\nTamanho da nova comunidade:",tamcomu)
     cat("\nVertice sendo adicionado: ")
   }
   for (i in 1:tamcomu){
     g = add.vertices(g,1)
     V(g)[vcount(g)]$p = idcomu
     if(msgDebug){
-      cat(i,"")
+      cat(vcount(g),"")
     }
     
     if (i==1){
@@ -157,16 +157,24 @@ extinction <- function(g, comu = 0){
     idcomu=comu
   }
   
-  aux = c(1:vcount(g))
-  aux = aux[V(g)$p==idcomu]
-  
-  while(length(aux)>1){
-    g = delete.vertices(g,sample(aux,1))
-    aux = c(1:vcount(g))
-    aux = aux[V(g)$p==idcomu]
+  espaco = V(g)[V(g)$p==idcomu]
+  if(msgDebug){
+    cat("\nVertices a serem excluidos:",length(espaco))
+    cat("\nVertice sendo excluído: ")
   }
   
-  g = delete.vertices(g,aux)
+  while(length(espaco)>1){
+    v1 = sample(espaco,1)
+    if(msgDebug){
+      cat(v1,"")
+    }
+    g = delete.vertices(g,v1)
+    espaco = V(g)[V(g)$p==idcomu]
+  }
+  if(msgDebug){
+    cat(espaco,"")
+  }
+  g = delete.vertices(g,espaco)
   
   if (calculaMixing(g) < (mixing)){
     if(msgDebug){
@@ -205,12 +213,11 @@ growth <- function(g, comu = 0, nmax = maxsize, mi = mixing){
   }
   
   for (i in 1:novosvertices){
-    if(msgDebug){
-      cat(i,"")
-    }
-    
     g = add.vertices(g,1)
     V(g)[vcount(g)]$p = idcomu
+    if(msgDebug){
+      cat(vcount(g),"")
+    }
     auxgrau = min((tamcomuinicial+i),maxdegree)
     grau = sample(2:auxgrau,1)
     for (j in 1:grau){
@@ -306,6 +313,97 @@ growth <- function(g, comu = 0, nmax = maxsize, mi = mixing){
   return(g)
 }
 
+contraction <- function(g,comu=0,nmin=minsize, mi = mixing){
+  if(vcount(g)==0){
+    return(g)
+  }
+  if (comu==0){
+    idcomu = sample(V(g)$p,1)
+  }else{
+    idcomu = comu
+  }
+  tamcomuinicial = length(V(g)[V(g)$p==idcomu])
+  while(tamcomuinicial<=nmin){
+    if (comu==0){
+      idcomu = sample(V(g)$p,1)
+    }else{
+      return(g)
+    }
+    tamcomuinicial = length(V(g)[V(g)$p==idcomu])
+  }
+  tamcomufinal = sample(nmin:tamcomuinicial,1)
+  velhosvertices = tamcomuinicial-tamcomufinal
+  
+  if (msgDebug){
+    cat("\nVertices a excluir:",velhosvertices)
+  }
+  
+  for ( i in 1:velhosvertices){
+    espaco = as.vector(V(g)[V(g)$p==idcomu])
+    v1 = sample(espaco,1)
+    if(msgDebug){
+      cat("\nVertice sendo excluído: ")
+      cat(v1,"")
+    }
+    g = delete.vertices(g,v1)
+    
+    tamcomu = length(V(g)[V(g)$p==idcomu])
+    dens = densidadeComunidade(g)
+    narestasout = length(E(g)[V(g)[V(g)$p==idcomu] %--% V(g)[V(g)$p!=idcomu]])
+    comumaxavgdegree = (((maxdegree*tamcomu)/2) - narestasout)/(tamcomu*(tamcomu-1)/2)
+    
+    if(msgDebug){
+      cat("\nDens:",dens)
+      cat("\nMeanDens:",mean(dens))
+      cat("\nCMAD:",comumaxavgdegree)
+      cat("\navg/tam:",avgdegree/tamcomu)
+    }
+    
+    d = min(mean(dens),comumaxavgdegree)
+    d = max(d,(avgdegree)/tamcomu)
+    flag = T
+    if(msgDebug){
+      cat("\nValor d:",d)
+      cat("\nGrau Médio: ")
+    }
+    x=0
+    while(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])) < (d) && flag){
+      espaco = as.vector(V(g)[V(g)$p==idcomu])
+      espaco = espaco[degree(g,espaco) < maxdegree]
+      if(msgDebug){
+        if ( x != round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)){
+          x = round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)
+          cat(x,"")
+        }
+      }
+      
+      if (length(espaco)>=2){
+        v1 = sample(espaco,1)
+        v2 = sample(espaco,1)
+        
+        g = add.edges(g,c(v1,v2))
+        g = simplify(g)
+      }else{
+        if(msgDebug){
+          cat("\nEspaco pequeno:",espaco,"\n")
+        }
+        
+        flag = F
+      }
+      
+    }
+  }
+  
+  if (calculaMixing(g) < (mi)){
+    if(msgDebug){
+      cat("\nCorrigindo")
+    }
+    
+    g = corrigeMixing(g,idcomu)
+  }
+  
+  return(g)
+}
 
 ##################################################
 #Funções Auxiliares
