@@ -109,9 +109,13 @@ born <- function(g, nmin = minsize, nmax = maxsize, mi=mixing){
     cat("\nGrau Médio: ")
   }
   x = 0
+  times = 0
   while(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])) < (d) && flag){
     espaco = as.vector(V(g)[V(g)$p==idcomu])
     espaco = espaco[degree(g,espaco) < maxdegree]
+    if(times > length(espaco)){
+      flag = F
+    }
     if(msgDebug){
       if ( x != round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)){
         x = round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)
@@ -124,6 +128,7 @@ born <- function(g, nmin = minsize, nmax = maxsize, mi=mixing){
       v2 = sample(espaco,1)
       
       g = add.edges(g,c(v1,v2))
+      times = times+1
       g = simplify(g)
     }else{
       if(msgDebug){
@@ -135,12 +140,20 @@ born <- function(g, nmin = minsize, nmax = maxsize, mi=mixing){
     
   }
 
-  if (calculaMixing(g) < (mi)){
+  if (calculaMixing(g) < (mi-toleranciamixing)){
     if(msgDebug){
       cat("\nCorrigindo")
     }
     
-    g = corrigeMixing(g,idcomu)
+    g = corrigeMixingUp(g,idcomu)
+  }
+  
+  if (calculaMixing(g) > (mi+toleranciamixing)){
+    if(msgDebug){
+      cat("\nCorrigindo")
+    }
+    
+    g = corrigeMixingDown(g,idcomu)
   }
 
   return(g)
@@ -176,11 +189,19 @@ extinction <- function(g, comu = 0){
   }
   g = delete.vertices(g,espaco)
   
-  if (calculaMixing(g) < (mixing)){
+  if (calculaMixing(g) < (mixing-toleranciamixing)){
     if(msgDebug){
       cat("\nCorrigindo")
     }
-    g = corrigeMixing(g)
+    g = corrigeMixingUp(g)
+  }
+  
+  if (calculaMixing(g) > (mixing+toleranciamixing)){
+    if(msgDebug){
+      cat("\nCorrigindo")
+    }
+    
+    g = corrigeMixingDown(g)
   }
   
   return(g)
@@ -276,9 +297,13 @@ growth <- function(g, comu = 0, nmax = maxsize, mi = mixing){
     cat("\nGrau Médio: ")
   }
   x=0
+  times = 0
   while(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])) < (d) && flag){
     espaco = as.vector(V(g)[V(g)$p==idcomu])
     espaco = espaco[degree(g,espaco) < maxdegree]
+    if (times > length(espaco)){
+      flag = F
+    }
     if(msgDebug){
       if ( x != round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)){
         x = round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)
@@ -291,6 +316,7 @@ growth <- function(g, comu = 0, nmax = maxsize, mi = mixing){
       v2 = sample(espaco,1)
       
       g = add.edges(g,c(v1,v2))
+      times = times+1
       g = simplify(g)
     }else{
       if(msgDebug){
@@ -302,12 +328,20 @@ growth <- function(g, comu = 0, nmax = maxsize, mi = mixing){
     
   }
   
-  if (calculaMixing(g) < (mi)){
+  if (calculaMixing(g) < (mi-toleranciamixing)){
     if(msgDebug){
       cat("\nCorrigindo")
     }
     
-    g = corrigeMixing(g,idcomu)
+    g = corrigeMixingUp(g,idcomu)
+  }
+  
+  if (calculaMixing(g) > (mi+toleranciamixing)){
+    if(msgDebug){
+      cat("\nCorrigindo")
+    }
+    
+    g = corrigeMixingDown(g,idcomu)
   }
   
   return(g)
@@ -331,7 +365,7 @@ contraction <- function(g,comu=0,nmin=minsize, mi = mixing){
     }
     tamcomuinicial = length(V(g)[V(g)$p==idcomu])
   }
-  tamcomufinal = sample(nmin:tamcomuinicial,1)
+  tamcomufinal = sample(nmin:(tamcomuinicial-1),1)
   velhosvertices = tamcomuinicial-tamcomufinal
   
   if (msgDebug){
@@ -367,9 +401,13 @@ contraction <- function(g,comu=0,nmin=minsize, mi = mixing){
       cat("\nGrau Médio: ")
     }
     x=0
+    times = 0
     while(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])) < (d) && flag){
       espaco = as.vector(V(g)[V(g)$p==idcomu])
       espaco = espaco[degree(g,espaco) < maxdegree]
+      if(times > length(espaco)){
+        flag=F
+      }
       if(msgDebug){
         if ( x != round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)){
           x = round(graph.density(induced.subgraph(g,V(g)[V(g)$p==idcomu])),2)
@@ -382,6 +420,7 @@ contraction <- function(g,comu=0,nmin=minsize, mi = mixing){
         v2 = sample(espaco,1)
         
         g = add.edges(g,c(v1,v2))
+        times = times+1
         g = simplify(g)
       }else{
         if(msgDebug){
@@ -394,12 +433,20 @@ contraction <- function(g,comu=0,nmin=minsize, mi = mixing){
     }
   }
   
-  if (calculaMixing(g) < (mi)){
+  if (calculaMixing(g) < (mi-toleranciamixing)){
     if(msgDebug){
       cat("\nCorrigindo")
     }
     
-    g = corrigeMixing(g,idcomu)
+    g = corrigeMixingUp(g,idcomu)
+  }
+  
+  if (calculaMixing(g) > (mi+toleranciamixing)){
+    if(msgDebug){
+      cat("\nCorrigindo")
+    }
+    
+    g = corrigeMixingDown(g,idcomu)
   }
   
   return(g)
@@ -409,9 +456,72 @@ contraction <- function(g,comu=0,nmin=minsize, mi = mixing){
 #Funções Auxiliares
 ##################################################
 
-corrigeMixing <- function(g,comu=0){
+corrigeMixingDown <-function(g,comu=0){
   if(msgDebug){
-    cat("\nMixing: ")
+    cat("\nMixing Down: ")
+  }
+  
+  flag = T
+  x=0
+  while(flag){
+    if (comu!=0){
+      idcomu=comu
+    }else{
+      idcomu = sample(V(g)$p,1)
+    }
+    
+    aux = as.vector(V(g)[V(g)$p==idcomu])
+    v1 = sample(aux,1)
+    vizinhos = as.vector(neighbors(g,v1))
+    vizinhos = vizinhos[V(g)[vizinhos]$p!=idcomu]
+    while (length(vizinhos)<=2){
+      v1 = sample(aux,1)
+      vizinhos = as.vector(neighbors(g,v1))
+      vizinhos = vizinhos[V(g)[vizinhos]$p!=idcomu]
+    }
+    v2 = sample(vizinhos,1)
+    while(degree(g,v2)<=2){
+      v2 = sample(vizinhos,1)
+    }
+    
+    aux = as.vector(V(g)[V(g)$p==idcomu])
+    v3 = sample(aux,1)
+    vizinhos2 = as.vector(neighbors(g,v3))
+    vizinhos2 = vizinhos2[V(g)[vizinhos2]$p!=idcomu]
+    while (length(vizinhos2)<=2){
+      v3 = sample(aux,1)
+      vizinhos2 = as.vector(neighbors(g,v3))
+      vizinhos2 = vizinhos2[V(g)[vizinhos2]$p!=idcomu]
+    }
+    v4 = sample(vizinhos2,1)
+    while(degree(g,v4)<=2){
+      v4 = sample(vizinhos2,1)
+    }
+    
+    aresta1 = get.edge.ids(g,c(v1,v2))
+    aresta2 = get.edge.ids(g,c(v3,v4))
+    g = delete.edges(g,aresta1)
+    g = delete.edges(g,aresta2)
+    g = add.edges(g,c(v1,v3))
+    g = simplify(g)
+    
+    if(msgDebug){
+      if (x != round(calculaMixing(g),2)){
+        x = round(calculaMixing(g),2)
+        cat(x,"")
+      }
+    }
+    
+    if(calculaMixing(g)<=(mixing)){
+      flag = F
+    }
+    
+  }
+}
+
+corrigeMixingUp <- function(g,comu=0){
+  if(msgDebug){
+    cat("\nMixing Up: ")
   }
   
   flag = T
@@ -483,7 +593,7 @@ densidadeComunidade <- function(g){
   
 calculaMixing <- function(g){
   nc = unique(V(g)$p)
-  if (length(nc)>2){
+  if (length(nc)>=2){
     temp = 0
     for (i in nc){
       vout = length(E(g)[V(g)[V(g)$p==i] %--% V(g)[V(g)$p!=i]])

@@ -27,37 +27,52 @@ pathParametros <- function(classe){
 
 
 msgDebug = T
-testarErro = F
+testarErro = T
 testeCompleto = F
 arquivoErro = paste(pasta,"Erros.dat",sep="")
-if(!testarErro){
-  seed = sample(1:1000,1)
+# if(!testarErro){
+#   seed = sample(1:1000,1)
+#   set.seed(seed)
+# }else{
+#   seed = read.table(arquivoErro,sep="\t")
+#   seed = seed[nrow(seed),1]
+#   set.seed(seed)
+# }
+
+seeds = sample(1:1e+05,100)
+tamanhoErro = read.table(arquivoErro,sep="\t")
+tamanhoErro = nrow(tamanhoErro)
+
+for(seed in seeds){
   set.seed(seed)
-}else{
-  seed = read.table(arquivoErro,sep="\t")
-  seed = seed[nrow(seed),1]
-  set.seed(seed)
+  cat("Seed:",seed,"\n")
+  classe = sample(c(1,3,2,4),1)
+  path = pathParametros(classe)
+  
+  nvertices = as.numeric(classesGrafos[classe,"nv"])
+  avgdegree = as.numeric(classesGrafos[classe,"avgd"])
+  maxdegree = as.numeric(classesGrafos[classe,"maxd"])
+  mixing = as.numeric(classesGrafos[classe,"mix"]/100)
+  toleranciamixing = 0.03
+  minsize = as.numeric(classesGrafos[classe,"mins"])
+  maxsize = as.numeric(classesGrafos[classe,"maxs"])
+  
+  cat("Classe:",classe,"\n")
+#   cat("Path:",path,"\n")
+#   cat("nv:",nvertices,"\n")
+#   cat("maxs:",maxsize,"\n")
+#   cat("mins:",minsize,"\n")
+#   cat("maxd:",maxdegree,"\n")
+#   cat("avgd:",avgdegree,"\n")
+#   cat("mix:",mixing,"\n")
+  source("DynamicalCommunities.R")
 }
 
-classe = sample(c(1,3,2,4),1)
-path = pathParametros(classe)
+novoTamanhoErro = read.table(arquivoErro,sep="\t")
+novoTamanhoErro = nrow(novoTamanhoErro)
 
-nvertices = as.numeric(classesGrafos[classe,"nv"])
-avgdegree = as.numeric(classesGrafos[classe,"avgd"])
-maxdegree = as.numeric(classesGrafos[classe,"maxd"])
-mixing = as.numeric(classesGrafos[classe,"mix"]/100)
-toleranciamixing = 0.03
-minsize = as.numeric(classesGrafos[classe,"mins"])
-maxsize = as.numeric(classesGrafos[classe,"maxs"])
-
-cat("Classe:",classe,"\n")
-cat("Path:",path,"\n")
-cat("nv:",nvertices,"\n")
-cat("maxs:",maxsize,"\n")
-cat("mins:",minsize,"\n")
-cat("maxd:",maxdegree,"\n")
-cat("avgd:",avgdegree,"\n")
-cat("mix:",mixing,"\n")
-source("DynamicalCommunities.R")
+if(novoTamanhoErro > tamanhoErro){
+  cat("Erros encontrados:",novoTamanhoErro-tamanhoErro,"\n")
+}
 
 

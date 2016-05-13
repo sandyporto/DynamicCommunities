@@ -35,7 +35,16 @@ test_that("Grafo vazio para função growth",{
   
 })
 
-
+test_that("Grafo vazio para função growth",{
+  g = make_empty_graph(0,F)
+  V(g)$p = 0
+  g = contraction(g)
+  nv = vcount(g)
+  expect_equal(nv,0)
+  nc = length(unique(V(g)$p[V(g)$p!=0]))
+  expect_that(nc, equals(0))
+  
+})
 
 
 
@@ -84,6 +93,22 @@ test_that("Grafo com 1 comunidade para função growth",{
   expect_gte(vcount(g),nv)
   tamcomu = length(V(g)$p[V(g)$p==1])
   expect_gte(tamcomu,nv)
+  nc = length(unique(V(g)$p[V(g)$p!=0]))
+  expect_that(nc, equals(1))
+  expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
+  expect_that(max(degree(g)),is_less_than(maxdegree+1))
+  mixingReal = calculaMixing(g)
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
+  expect_that(menorComunidade(g), is_more_than(minsize-1))
+  expect_that(maiorComunidade(g), is_less_than(maxsize+1))
+})
+
+test_that("Grafo com 1 comunidade para função contraction",{
+  g = contraction(g)
+  cat("\n")
+  expect_lte(vcount(g),nv)
+  tamcomu = length(V(g)$p[V(g)$p==idcomu])
+  expect_lte(tamcomu,nv)
   nc = length(unique(V(g)$p[V(g)$p!=0]))
   expect_that(nc, equals(1))
   expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
@@ -205,6 +230,23 @@ test_that("Função growth",{
 })
 
 
+idcomu = sample(V(g)$p,1)
+tamcomu = length(V(g)$p[V(g)$p==idcomu])
+nvertices = vcount(g)
+g = contraction(g,comu=idcomu)
+cat("\n")
+test_that("Função contraction",{
+  
+  expect_lte(vcount(g),nvertices)
+  nv = length(V(g)$p[V(g)$p==idcomu])
+  expect_lte(nv,tamcomu)
+  expect_that(mean(degree(g)), equals(avgdegree, tolerance=1))
+  expect_that(max(degree(g)),is_less_than(maxdegree+1))
+  mixingReal = calculaMixing(g)
+  expect_that(mixingReal, equals(mixing, tolerance = toleranciamixing, scale=1))
+  expect_that(menorComunidade(g), is_more_than(minsize-1))
+  expect_that(maiorComunidade(g), is_less_than(maxsize+1))
+})
 #ilustrarGrafo(g)
 
 

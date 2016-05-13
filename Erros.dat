@@ -46,6 +46,48 @@
 785	vcount(grafoInicial) not equal to nvertices, 600 - 62 == 538
 785	vcount(g) not equal to nvertices + tamcomu, 683 - 145 == 538
 738	object 'idcomu' not found, 1: withCallingHandlers(eval(code, new_test_environment), error = capture_calls, message = function(c) invokeRestart("muffleMessage"))
-2: eval(code, new_test_environment)
-3: eval(expr, envir, enclos)
 424	mixingReal not equal to mixing, 0.23 - 0.2 == 0.0304
+27122	mean(degree(g)) not equal to avgdegree, 28.7 - 30 == -1.34
+27122	mean(degree(g)) not equal to avgdegree, 22.2 - 30 == -7.78
+27122	mean(degree(g)) not equal to avgdegree, 21.4 - 30 == -8.65
+27122	vcount(g) not equal to nvertices + tamcomu, 193 - 227 == -34
+27122	mean(degree(g)) not equal to avgdegree, 21.4 - 30 == -8.61
+27122	vcount(g) not equal to nvertices + tamcomu, 242 - 238 == 4
+27122	mean(degree(g)) not equal to avgdegree, 21.5 - 30 == -8.46
+27122	mean(degree(g)) not equal to avgdegree, 23.3 - 30 == -6.67
+27122	mean(degree(g)) not equal to avgdegree, 23.9 - 30 == -6.08
+27122	mean(degree(g)) not equal to avgdegree, 21.4 - 30 == -8.61
+27122	mean(degree(g)) not equal to avgdegree, 21.7 - 30 == -8.25
+27122	mean(degree(g)) not equal to avgdegree, 22 - 30 == -7.96
+61433	vcount(g) not equal to nvertices + tamcomu, 334 - 335 == -1
+61433	mean(degree(g)) not equal to avgdegree, 28.7 - 30 == -1.31
+61433	mean(degree(g)) not equal to avgdegree, 28.4 - 30 == -1.57
+61433	menorComunidade(g) not more than minsize - 1. Difference: 11
+61433	vcount(g) not equal to nvertices + tamcomu, 352 - 365 == -13
+61433	mean(degree(g)) not equal to avgdegree, 27.2 - 30 == -2.81
+61433	menorComunidade(g) not more than minsize - 1. Difference: 11
+61433	vcount(g) not equal to nvertices + tamcomu, 386 - 368 == 18
+61433	mean(degree(g)) not equal to avgdegree, 26.2 - 30 == -3.76
+61433	menorComunidade(g) not more than minsize - 1. Difference: 11
+61433	mean(degree(g)) not equal to avgdegree, 26.3 - 30 == -3.66
+61433	menorComunidade(g) not more than minsize - 1. Difference: 11
+61433	vcount(g) not equal to nvertices + tamcomu, 419 - 420 == -1
+61433	mean(degree(g)) not equal to avgdegree, 25.2 - 30 == -4.75
+61433	menorComunidade(g) not more than minsize - 1. Difference: 11
+61433	vcount(g) not equal to nvertices + tamcomu, 456 - 423 == 33
+61433	mean(degree(g)) not equal to avgdegree, 24.5 - 30 == -5.5
+61433	menorComunidade(g) not more than minsize - 1. Difference: 11
+61433	mean(degree(g)) not equal to avgdegree, 24.3 - 30 == -5.66
+61433	menorComunidade(g) not more than minsize - 1. Difference: 11
+17527	mean(degree(g)) not equal to avgdegree, 28.6 - 30 == -1.41
+17527	mean(degree(g)) not equal to avgdegree, 28.8 - 30 == -1.18
+17527	mean(degree(g)) not equal to avgdegree, 27.3 - 30 == -2.68
+17527	mean(degree(g)) not equal to avgdegree, 26 - 30 == -3.99
+17527	mean(degree(g)) not equal to avgdegree, 25.4 - 30 == -4.63
+17527	mean(degree(g)) not equal to avgdegree, 25.2 - 30 == -4.8
+17527	mean(degree(g)) not equal to avgdegree, 24.4 - 30 == -5.61
+17527	mean(degree(g)) not equal to avgdegree, 24.8 - 30 == -5.24
+17527	mean(degree(g)) not equal to avgdegree, 24.6 - 30 == -5.37
+17527	mean(degree(g)) not equal to avgdegree, 24.2 - 30 == -5.77
+17527	mean(degree(g)) not equal to avgdegree, 25 - 30 == -4.99
+17527	mean(degree(g)) not equal to avgdegree, 24.2 - 30 == -5.78
