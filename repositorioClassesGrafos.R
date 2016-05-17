@@ -39,9 +39,12 @@ arquivoErro = paste(pasta,"Erros.dat",sep="")
 #   set.seed(seed)
 # }
 
-seeds = sample(1:1e+05,100)
+nseeds = 10
+seeds = sample(1:1e+05,nseeds,replace=F)
 tamanhoErro = read.table(arquivoErro,sep="\t")
 tamanhoErro = nrow(tamanhoErro)
+probfuncao = c(0,1,0,0)
+probfuncao = rep(1,4)/4
 
 for(seed in seeds){
   set.seed(seed)
@@ -54,6 +57,7 @@ for(seed in seeds){
   maxdegree = as.numeric(classesGrafos[classe,"maxd"])
   mixing = as.numeric(classesGrafos[classe,"mix"]/100)
   toleranciamixing = 0.03
+  toleranciagrau = 2
   minsize = as.numeric(classesGrafos[classe,"mins"])
   maxsize = as.numeric(classesGrafos[classe,"maxs"])
   
