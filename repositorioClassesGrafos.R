@@ -39,7 +39,7 @@ arquivoErro = paste(pasta,"Erros.dat",sep="")
 #   set.seed(seed)
 # }
 
-nseeds = 10
+nseeds = 100
 seeds = sample(1:1e+05,nseeds,replace=F)
 tamanhoErro = read.table(arquivoErro,sep="\t")
 tamanhoErro = nrow(tamanhoErro)

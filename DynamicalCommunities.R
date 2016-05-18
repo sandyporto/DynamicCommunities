@@ -103,6 +103,13 @@ born <- function(g, nmin = minsize, nmax = maxsize, mi=mixing){
     g = corrigeDensidadeComu(g,idcomu)
   }
   
+  if(mean(degree(g)) < (avgdegree - toleranciagrau)){
+    g = corrigeGrauUp(g)
+  }
+  
+  if(mean(degree(g)) > (avgdegree + toleranciagrau)){
+    g = corrigeGrauDown(g)
+  }
 
   if (calculaMixing(g) < (mi-toleranciamixing)){
     g = corrigeMixingUp(g,idcomu)
@@ -145,6 +152,14 @@ extinction <- function(g, comu = 0){
   }
  
   g = delete.vertices(g,espaco)
+  
+  if(mean(degree(g)) < (avgdegree - toleranciagrau)){
+    g = corrigeGrauUp(g)
+  }
+  
+  if(mean(degree(g)) > (avgdegree + toleranciagrau)){
+    g = corrigeGrauDown(g)
+  }
   
   if (calculaMixing(g) < (mixing-toleranciamixing)){
     g = corrigeMixingUp(g)
@@ -238,6 +253,14 @@ growth <- function(g, comu = 0, nmax = maxsize, mi = mixing){
     g = corrigeDensidadeComu(g,idcomu)
   }
   
+  if(mean(degree(g)) < (avgdegree - toleranciagrau)){
+    g = corrigeGrauUp(g)
+  }
+  
+  if(mean(degree(g)) > (avgdegree + toleranciagrau)){
+    g = corrigeGrauDown(g)
+  }
+  
   if (calculaMixing(g) < (mi-toleranciamixing)){
     g = corrigeMixingUp(g,idcomu)
   }
@@ -272,26 +295,36 @@ contraction <- function(g,comu=0,nmin=minsize, mi = mixing){
   
   if (msgDebug){
     cat("\nVertices a excluir:",velhosvertices)
+    cat("\nVertice sendo excluído: ")
   }
   
   for ( i in 1:velhosvertices){
     espaco = as.vector(V(g)[V(g)$p==idcomu])
     v1 = sample(espaco,1)
     if(msgDebug){
-      cat("\nVertice sendo excluído: ")
-      cat(v1,"")
+      cat("",v1)
     }
     g = delete.vertices(g,v1)
     
-    dc = densidadeComunidade(g)
-    nc = sort(unique(V(g)$p))
-    aux = which(nc==idcomu)
-    densidademedia = mean(c(dc[-aux],edge_density(g)))
-    densidademedia = max(densidademedia,edge_density(g))
     
-    if (dc[aux] < densidademedia){
-      g = corrigeDensidadeComu(g,idcomu)
-    }
+  }
+  
+  dc = densidadeComunidade(g)
+  nc = sort(unique(V(g)$p))
+  aux = which(nc==idcomu)
+  densidademedia = mean(c(dc[-aux],edge_density(g)))
+  densidademedia = max(densidademedia,edge_density(g))
+  
+  if (dc[aux] < densidademedia){
+    g = corrigeDensidadeComu(g,idcomu)
+  }
+  
+  if(mean(degree(g)) < (avgdegree - toleranciagrau)){
+    g = corrigeGrauUp(g)
+  }
+  
+  if(mean(degree(g)) > (avgdegree + toleranciagrau)){
+    g = corrigeGrauDown(g)
   }
   
   if (calculaMixing(g) < (mi-toleranciamixing)){
@@ -486,9 +519,77 @@ corrigeMixingUp <- function(g,comu=0){
 }
 
 corrigeGrauUp <- function(g){
-  while(mean(degree(g)) < avgdegree){
-    cat("")
+  if(msgDebug){
+    cat("\nGrau Up:")
   }
+  x = 0
+  while(mean(degree(g)) < min(avgdegree,vcount(g))){
+    conexao = sample(c("in","out"),1,replace=F,prob=c(1-mixing,mixing))
+    espaco = V(g)[degree(g,V(g))<maxdegree]
+    v1 = sample(espaco,1)
+    idcomu = V(g)[v1]$p
+    if (conexao == "in"){
+      espaco = V(g)[V(g)$p==idcomu]
+    }else{
+      if (conexao == "out"){
+        espaco = V(g)[V(g)$p!=idcomu]
+      }
+    }
+    espaco = espaco[degree(g,espaco)<maxdegree]
+    v2 = sample(espaco,1)
+    
+    g = add.edges(g,c(v1,v2))
+    g = simplify(g)
+    if(msgDebug){
+      if(x != round(mean(degree(g)))){
+        x = round(mean(degree(g)))
+        cat("",x)
+      }
+    }
+  }
+  return(g)
+}
+
+corrigeGrauDown <- function(g){
+  if(msgDebug){
+    cat("\nGrau Down:")
+  }
+  x = 0
+  while(mean(degree(g)) > (avgdegree)){
+    espaco = as.vector(V(g)[degree(g,V(g))<maxdegree])
+    v1 = sample(espaco,1)
+    idcomu = V(g)[v1]$p
+    vizinhos = as.vector(neighbors(g,v1))
+    if(sample(c(F,T),1)){
+      vizinhos = vizinhos[V(g)[vizinhos]$p!=idcomu]
+    }else{
+      vizinhos = vizinhos[V(g)[vizinhos]$p==idcomu]
+    }
+    vizinhos = vizinhos[degree(g,vizinhos)>2]
+    while(length(vizinhos)<2){
+      v1 = sample(espaco,1)
+      idcomu = V(g)[v1]$p
+      vizinhos = as.vector(neighbors(g,v1))
+      if(sample(c(F,T),1)){
+        vizinhos = vizinhos[V(g)[vizinhos]$p!=idcomu]
+      }else{
+        vizinhos = vizinhos[V(g)[vizinhos]$p==idcomu]
+      }
+      vizinhos = vizinhos[degree(g,vizinhos)>2]
+    }
+    v2 = sample(vizinhos,1)
+    
+    aresta = get.edge.ids(g,c(v1,v2))
+    g = delete.edges(g,aresta)
+    g = simplify(g)
+    if(msgDebug){
+      if(x != round(mean(degree(g)))){
+        x = round(mean(degree(g)))
+        cat("",x)
+      }
+    }
+  }
+  return(g)
 }
 
 densidadeComunidade <- function(g){
