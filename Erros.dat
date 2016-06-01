@@ -168,3 +168,68 @@
 96990	mean(degree(g)) not equal to avgdegree, 25.4 - 30 == -4.59
 96990	mean(degree(g)) not equal to avgdegree, 25.9 - 30 == -4.05
 96990	mean(degree(g)) not equal to avgdegree, 24.2 - 30 == -5.85
+46302	mean(degree(g)) not equal to avgdegree, 63.9 - 60 == 3.95
+80619	mean(degree(grafoInicial)) not equal to avgdegree, 27.2 - 30 == -2.77
+25480	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 63.3 - 60 == 3.32. 
+25480	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 62.1 - 60 == 2.12. 
+33996	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+33996	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+33996	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+33996	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+60109	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 62.6 - 60 == 2.6. 
+60109	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 62.6 - 60 == 2.6. 
+60109	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 62.6 - 60 == 2.6. 
+60109	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 62.6 - 60 == 2.6. 
+3492	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 64.8 - 60 == 4.81. 
+22286	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 63.9 - 60 == 3.92. 
+22286	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+22286	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+22286	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+2263	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+2263	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+2263	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+2263	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 0. 
+12742	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 23.2 - 30 == -6.82. 
+58971	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 26.5 - 30 == -3.47. 
+67927	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 53.3 - 60 == -6.71. 
+94661	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.109 - 0.2 == -0.0908. 
+98522	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.158 - 0.2 == -0.0419. 
+98522	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.123 - 0.2 == -0.077. 
+98522	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.121 - 0.2 == -0.0788. 
+98522	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.129 - 0.2 == -0.0709. 
+83247	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.15 - 0.2 == -0.0501. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0715 - 0.2 == -0.129. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0418 - 0.2 == -0.158. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0837 - 0.2 == -0.116. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0953 - 0.2 == -0.105. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.043 - 0.2 == -0.157. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0421 - 0.2 == -0.158. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0798 - 0.2 == -0.12. 
+30954	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.124 - 0.2 == -0.0761. 
+32023	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0903 - 0.2 == -0.11. 
+32023	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.117 - 0.2 == -0.0832. 
+32023	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.168 - 0.2 == -0.0322. 
+32023	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0889 - 0.2 == -0.111. 
+32023	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0 - 0.2 == -0.2. 
+8015	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.162 - 0.2 == -0.0382. 
+8015	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.167 - 0.2 == -0.0331. 
+8015	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.105 - 0.2 == -0.0949. 
+8015	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0857 - 0.2 == -0.114. 
+8015	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0922 - 0.2 == -0.108. 
+62087	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.169 - 0.2 == -0.0314. 
+62087	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.16 - 0.2 == -0.0399. 
+51785	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0358 - 0.05 == -0.0142. 
+51785	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.0399 - 0.05 == -0.0101. 
+22587	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.15 - 0.2 == -0.0495. 
+17610	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.136 - 0.2 == -0.0637. 
+17610	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.106 - 0.2 == -0.0939. 
+17610	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.147 - 0.2 == -0.0532. 
+81984	`mixingReal` not equal to `mixing`.. 1/1 mismatches. [1] 0.151 - 0.2 == -0.0494. 
+84299	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 51. 
+84299	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 51. 
+84299	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 51. 
+84299	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 51. 
+31838	mean(degree(g)) not equal to `avgdegree`.. 1/1 mismatches. [1] 57.9 - 60 == -2.14. 
+78978	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 87. 
+78978	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 87. 
+68008	maiorComunidade(g) is not strictly less than maxsize + 1. Difference: 135. 

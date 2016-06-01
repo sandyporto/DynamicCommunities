@@ -24,7 +24,7 @@ for(i in 1:nfuncoes){
   funcao = sample(c("b","e","g","c"),1,prob=probfuncao)
   if (funcao == "b"){
     if(msgDebug){
-      cat("\nFunção",i,": Born","\n")
+      cat("\nFunção",i,": Born","\n",date(),"\n")
     }
     nv = vcount(g)
     g = born(g,nmax=round(maxsize/3))
@@ -47,7 +47,7 @@ for(i in 1:nfuncoes){
   
   if(funcao == "e"){
     if(msgDebug){
-      cat("\nFunção",i,": Extinction","\n")
+      cat("\nFunção",i,": Extinction","\n",date(),"\n")
     }
     nv = vcount(g)
     if(nv!=0){
@@ -59,7 +59,7 @@ for(i in 1:nfuncoes){
         test_that("Função extinction",{
           
           expect_lt(vcount(g),nv)
-          nv2 = length(V(g)$p[V(g)$p==idcomu])
+          nv2 = length(V(g)[V(g)$p==idcomu])
           expect_that(nv2,equals(0))
           expect_that(mean(degree(g)), equals(avgdegree, tolerance=toleranciagrau, scale=1))
           expect_that(max(degree(g)),is_less_than(maxdegree+1))
@@ -79,7 +79,7 @@ for(i in 1:nfuncoes){
   
   if(funcao == "g"){
     if(msgDebug){
-      cat("\nFunção",i,": Growth","\n")
+      cat("\nFunção",i,": Growth","\n",date(),"\n")
     }
     nv = vcount(g)
     if(nv!=0){
@@ -108,7 +108,7 @@ for(i in 1:nfuncoes){
   
   if(funcao == "c"){
     if(msgDebug){
-      cat("\nFunção",i,": Contraction","\n")
+      cat("\nFunção",i,": Contraction","\n",date(),"\n")
     }
     nv = vcount(g)
     if(nv!=0){
@@ -143,6 +143,7 @@ for(i in 1:nfuncoes){
     cat("Número de Comunidades:",length(unique(V(g)$p)),"\n")
     cat("Grau médio:",mean(degree(g)),"\n")
     cat("Grau máximo:",max(degree(g)),"\n")
+    cat("Densidade Rede:",edge_density(g),"\n")
     cat("Densidades:",densidadeComunidade(g),"\n")
     cat("Mixing:",calculaMixing(g),"\n")
     cat("Menor Comu:",menorComunidade(g),"\n")
